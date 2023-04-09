@@ -1,0 +1,19 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-header">
+            <h2 class="">Category Register</h2>
+        </div>
+
+        <div class="card-body">
+            <form method="POST" action="/categories/save">
+                <input class="form-control" type="text" name="title" placeholder="Category title">
+                <button class="btn btn-success mt-3">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
