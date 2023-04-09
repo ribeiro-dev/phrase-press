@@ -23,12 +23,12 @@
                     <th class="align-middle"><%= category.title %></th>
                     <th class="align-middle"><%= category.slug %></th>
                     <th class="text-center">
-                        <form class="d-inline-flex mt-1" action="">
+                        <form class="d-inline-flex mt-1 actions-form" action="">
                             <input type="hidden" name="id" value="<%= category.id %>">
                             <button class="btn btn-info text-light">Edit</button>
                         </form>
 
-                        <form class="d-inline-flex mt-1" method="POST" action="/categories/delete">
+                        <form class="d-inline-flex mt-1 actions-form" method="POST" action="/categories/delete">
                             <input type="hidden" name="id" value="<%= category.id %>">
                             <button class="btn btn-danger text-light">Delete</button>
                         </form>
@@ -39,4 +39,5 @@
     </table>
 </div>
 
+<script src="/js/admin/categories/index.js"></script>
 <%- include('../../partials/footer.ejs') %>
