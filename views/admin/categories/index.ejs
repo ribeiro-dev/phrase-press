@@ -23,12 +23,9 @@
                     <th class="align-middle"><%= category.title %></th>
                     <th class="align-middle"><%= category.slug %></th>
                     <th class="text-center">
-                        <form class="d-inline-flex mt-1 actions-form" action="">
-                            <input type="hidden" name="id" value="<%= category.id %>">
-                            <button class="btn btn-info text-light">Edit</button>
-                        </form>
+                        <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-info text-light">Edit</a>
 
-                        <form class="d-inline-flex mt-1 actions-form" method="POST" action="/categories/delete">
+                        <form class="d-inline-block mt-1 actions-form" method="POST" action="/categories/delete">
                             <input type="hidden" name="id" value="<%= category.id %>">
                             <button class="btn btn-danger text-light">Delete</button>
                         </form>
