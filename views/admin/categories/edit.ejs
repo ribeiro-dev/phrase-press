@@ -8,8 +8,9 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="/categories/save">
+            <form method="POST" action="/categories/update">
                 <input class="form-control" type="text" name="title" value="<%= category.title %>">
+                <input type="hidden" name="id" value="<%= category.id %>">
                 <button class="btn btn-success mt-3">Edit</button>
             </form>
         </div>
