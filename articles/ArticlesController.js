@@ -5,13 +5,30 @@ const Article = require('./Article')
 const slugify = require('slugify');
 
 router.get('/admin/articles', (req, res) => {
-    res.send("ARTICLES ROUTE")
+    Article.findAll({
+        include: [{ model: Category }] // join
+    }).then((articles) => {
+        res.render("admin/articles/index", { articles: articles })
+    })
 });
 
 router.get('/admin/articles/new', (req, res) => {
     Category.findAll().then(categories => {
-            res.render("admin/articles/new", { categories: categories})
-        })
+        res.render("admin/articles/new", { categories: categories})
+    })
+})
+
+router.post('/articles/delete', (req, res) => {
+    const id = req.body.id
+
+    if (id == undefined || isNaN(id)) res.redirect('/admin/articles')
+
+    Article.destroy({
+        where: { id: id }
+    })
+    .then(() => {
+        res.redirect('/admin/articles')
+    })
 })
 
 router.post('/articles/save', (req, res) => {
