@@ -34,10 +34,32 @@ app.use('/', categoriesController)
 app.use('/', articlesController)
 
 app.get('/', async (req, res) => {
-    const articles = await Article.findAll()
+    const articles = await Article.findAll({
+        order: [
+            ['id', 'DESC']
+        ]
+    })
     res.render('index', { articles: articles })
 })
 
+app.get('/:slug', async (req, res) => {
+    const slug = req.params.slug
+
+    try {
+        var article = await Article.findOne({
+            where: {
+                slug: slug
+            }
+        })
+    }
+    catch (error) {
+        res.redirect('/')
+    }
+
+    if (article == undefined) res.redirect('/')
+
+    res.render('article', { article: article })
+})
 
 app.listen(8080, () => {
     console.log("App is running")
