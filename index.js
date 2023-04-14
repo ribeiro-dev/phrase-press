@@ -6,7 +6,7 @@ const connection = require('./database/database')
 const categoriesController = require('./categories/CategoriesController')
 const articlesController = require('./articles/ArticlesController')
 
-const Articles = require('./articles/Article')
+const Article = require('./articles/Article')
 const Category = require('./categories/Category')
 
 // View Engine
@@ -33,8 +33,9 @@ connection
 app.use('/', categoriesController)
 app.use('/', articlesController)
 
-app.get('/', (req, res) => {
-    res.render('index')
+app.get('/', async (req, res) => {
+    const articles = await Article.findAll()
+    res.render('index', { articles: articles })
 })
 
 
