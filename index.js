@@ -39,7 +39,9 @@ app.get('/', async (req, res) => {
             ['id', 'DESC']
         ]
     })
-    res.render('index', { articles: articles })
+    const categories = await Category.findAll()
+
+    res.render('index', { articles: articles, categories: categories })
 })
 
 app.get('/:slug', async (req, res) => {
@@ -51,6 +53,8 @@ app.get('/:slug', async (req, res) => {
                 slug: slug
             }
         })
+
+        var categories = await Category.findAll()
     }
     catch (error) {
         res.redirect('/')
@@ -58,7 +62,28 @@ app.get('/:slug', async (req, res) => {
 
     if (article == undefined) res.redirect('/')
 
-    res.render('article', { article: article })
+    res.render('article', { article: article, categories: categories })
+})
+
+app.get('/category/:slug', async (req, res) => {
+    const slug = req.params.slug
+
+    try {
+        var category = await Category.findOne({
+            where: {
+                slug: slug
+            },
+            include: [{ model: Article }]
+        })
+        var categories = await Category.findAll()
+
+    } catch (error) {
+        res.redirect('/')
+    }
+
+    if (category == undefined) res.redirect('/')
+
+    res.render('index', { articles: category.articles, categories: categories })
 })
 
 app.listen(8080, () => {
