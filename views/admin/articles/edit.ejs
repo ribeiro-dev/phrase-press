@@ -1,0 +1,35 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-header">
+            <h2 class="">Edit Article</h2>
+        </div>
+
+        <div class="card-body">
+            <form method="POST" action="/articles/update">
+                <input type="hidden" value="<%= article.id %>" name="id">
+                <input class="form-control mb-3" type="text" name="title" placeholder="New article title" value="<%= article.title %>">
+                <select class="form-control mb-3" name="category" id="category">
+                    <% categories.forEach(category => { %>
+                        <% if (category.id == article.categoryId ) { %>
+                            <option selected value="<%= category.id %>"><%= category.title %></option>
+                        <% } else { %>
+                            <option value="<%= category.id %>"><%= category.title %></option>
+                        <% } %>
+
+
+                    <% }) %>
+                </select>
+                <textarea class="form-control" name="body" id="article" placeholder="Write the article here"><%= article.body %></textarea>
+                <button class="btn btn-success mt-3">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script src="/js/admin/articles/new.js"></script>
