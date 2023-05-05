@@ -91,4 +91,40 @@ router.post('/articles/save', (req, res) => {
     })
 })
 
+router.get('/articles/page/:num', (req, res) => {
+    const page = parseInt(req.params.num)
+    const limit = 4
+    let offset
+
+    if (isNaN(page) || page == 1) {
+        offset = 0
+    } else {
+        offset = page * limit;
+    }
+
+    Article.findAndCountAll({
+        limit: limit,
+        offset: offset
+    }).then(articles => {
+        let next
+        if (offset + limit >= articles.count) {
+            next = false
+        } else {
+            next = true
+        }
+
+        const result = {
+            next: next,
+            articles: articles
+        }
+
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page", {
+                result: result,
+                categories: categories
+            })
+        })
+    })
+})
+
 module.exports = router
