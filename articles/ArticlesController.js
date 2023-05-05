@@ -115,7 +115,8 @@ router.get('/articles/page/:num', (req, res) => {
 
         const result = {
             next: next,
-            articles: articles
+            articles: articles,
+            page: page
         }
 
         Category.findAll().then(categories => {
