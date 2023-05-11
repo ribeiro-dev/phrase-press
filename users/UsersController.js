@@ -11,21 +11,26 @@ router.get("/admin/users/create", (req, res) => {
     res.render("admin/users/create")
 })
 
-router.post("/users/create", (req, res) => {
+router.post("/users/create", async (req, res) => {
     const email = req.body.email
     const password = req.body.password
+
+    const emailExists = await User.findOne({ where: { email: email }})
+
+    if (emailExists) {
+        res.redirect('/admin/users/create')
+        return
+    }
 
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(password, salt)
 
-    User.create({
+    const userCreated = await User.create({
         email: email,
         password: hash
-    }).then(() => {
-        res.redirect('/admin/users')
-    }).catch(err => {
-        res.redirect('/')
     })
+
+    userCreated ? res.redirect('/admin/users') : res.redirect('/')
 })
 
 module.exports = router
