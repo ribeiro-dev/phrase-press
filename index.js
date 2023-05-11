@@ -56,16 +56,14 @@ app.get('/:slug', async (req, res) => {
                 slug: slug
             }
         })
-
         var categories = await Category.findAll()
+
+        if (article != undefined) res.redirect('/')
+        else res.render('article', { article: article, categories: categories })
     }
     catch (error) {
         res.redirect('/')
     }
-
-    if (article == undefined) res.redirect('/')
-
-    res.render('article', { article: article, categories: categories })
 })
 
 app.get('/category/:slug', async (req, res) => {
