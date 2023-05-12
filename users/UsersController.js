@@ -13,6 +13,19 @@ router.get("/admin/users/create", (req, res) => {
     res.render("admin/users/create")
 })
 
+router.post("/admin/users/delete", async (req, res) => {
+    const userId = req.body.id
+
+    if (userId == undefined) res.redirect('/admin/users')
+    if (isNaN(userId)) res.redirect('/admin/users')
+
+    await User.destroy({
+        where: { id: userId }
+    })
+
+    res.redirect('/admin/users')
+})
+
 router.post("/users/create", async (req, res) => {
     const email = req.body.email
     const password = req.body.password
