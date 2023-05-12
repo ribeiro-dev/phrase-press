@@ -3,8 +3,10 @@ const router = express.Router()
 const User = require("./User")
 const bcrypt = require("bcryptjs")
 
-router.get("/admin/users", (req, res) => {
-    res.send("Users List")
+router.get("/admin/users", async (req, res) => {
+    const users = await User.findAll()
+
+    res.render("admin/users/index", { users: users })
 })
 
 router.get("/admin/users/create", (req, res) => {
