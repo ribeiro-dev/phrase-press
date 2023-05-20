@@ -48,4 +48,35 @@ router.post("/users/create", async (req, res) => {
     userCreated ? res.redirect('/admin/users') : res.redirect('/')
 })
 
+router.get('/login', (req, res) => {
+    res.render('admin/users/login')
+})
+
+router.post('/authenticate', async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+
+    const user = await User.findOne({
+        where: { email: email }
+    })
+
+    if (!user) {
+        res.redirect('/login')
+        return
+    }
+
+    const isPasswordCorrect = bcrypt.compareSync(password, user.password)
+    if (!isPasswordCorrect) {
+        req.redirect('/login')
+        return
+    }
+
+    req.session.user = {
+        id: user.id,
+        email: user.email
+    }
+    res.json(req.session.user)
+})
+
+
 module.exports = router
