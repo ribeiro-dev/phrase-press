@@ -68,7 +68,7 @@ router.post('/authenticate', async (req, res) => {
 
     const isPasswordCorrect = bcrypt.compareSync(password, user.password)
     if (!isPasswordCorrect) {
-        req.redirect('/login')
+        res.redirect('/login')
         return
     }
 
