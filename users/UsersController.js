@@ -2,18 +2,19 @@ const express = require("express")
 const router = express.Router()
 const User = require("./User")
 const bcrypt = require("bcryptjs")
+const adminAuth = require('../middlewares/adminAuth')
 
-router.get("/admin/users", async (req, res) => {
+router.get("/admin/users", adminAuth, async (req, res) => {
     const users = await User.findAll()
 
     res.render("admin/users/index", { users: users })
 })
 
-router.get("/admin/users/create", (req, res) => {
+router.get("/admin/users/create", adminAuth, (req, res) => {
     res.render("admin/users/create")
 })
 
-router.post("/admin/users/delete", async (req, res) => {
+router.post("/admin/users/delete", adminAuth, async (req, res) => {
     const userId = req.body.id
 
     if (userId == undefined) res.redirect('/admin/users')
@@ -26,7 +27,7 @@ router.post("/admin/users/delete", async (req, res) => {
     res.redirect('/admin/users')
 })
 
-router.post("/users/create", async (req, res) => {
+router.post("/users/create", adminAuth, async (req, res) => {
     const email = req.body.email
     const password = req.body.password
 
@@ -75,7 +76,7 @@ router.post('/authenticate', async (req, res) => {
         id: user.id,
         email: user.email
     }
-    res.json(req.session.user)
+    res.redirect('/admin/articles')
 })
 
 
