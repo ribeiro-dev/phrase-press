@@ -64,7 +64,7 @@ app.get('/:slug', async (req, res) => {
         })
         var categories = await Category.findAll()
 
-        if (article != undefined) res.redirect('/')
+        if (article == undefined) res.redirect('/')
         else res.render('article', { article: article, categories: categories })
     }
     catch (error) {
